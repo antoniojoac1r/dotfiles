@@ -22,4 +22,8 @@
    + Sound Control GUI
       - pavucontrol [here](https://archlinux.org/packages/extra/x86_64/pavucontrol/)
 
+```bash
+yay -S lxappearance nemo rofi network-manager-applet flameshot pavucontrol pop-gtk-theme pop-icon-theme --needed --noconfirm
+```
+
 ### [WM - Qtile](https://qtile.org/)
