@@ -11,5 +11,3 @@ fi
 if ! [[ $(pgrep picom 2> /dev/null) ]]; then
   picom --no-vsync &
 fi
-
-

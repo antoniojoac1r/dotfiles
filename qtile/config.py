@@ -30,24 +30,17 @@ from libqtile.lazy import lazy
 from qtile_extras import widget
 from qtile_extras.widget.decorations import RectDecoration
 
-
-
 @hook.subscribe.setgroup
 def setgroup():
     for i in range(0, 9):
         if len(qtile.groups[i].windows) > 0:
-            # If there is something active in this group, put this label
             qtile.groups[i].label = "󰊠"
-            # qtile.groups[i].label = "󰧵"
         else:
-            # and if you don't have anything, put this
-            qtile.groups[i].label = "󰧵"
-            # qtile.groups[i].label = "󰊠"
+            qtile.groups[i].label = "󱙝"
     qtile.current_group.label = "󰮯"
-
-
+    
 mod = "mod4"
-terminal = "kitty"
+terminal = "alacritty"
 browser = "firefox"
 
 colors = [
@@ -113,30 +106,17 @@ keys = [
     Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawn("rofi -show drun"), desc="Spawn a command using a prompt widget"),
-    Key([mod], "w", lazy.spawn(browser)),
+    Key([mod], "r", lazy.spawn("rofi -show drun"), desc="Launcher rofi"),
+    Key([mod], "w", lazy.spawn(browser), desc="web browser"),
     Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl set +5%")),
     Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 5%-")),
     Key([], "XF86AudioLowerVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%")),
     Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%")),
     Key([], "XF86AudioMute", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")),
-    Key([mod], "e", lazy.spawn('nemo'), desc="Launch my file manager")
+    Key([mod], "e", lazy.spawn('nemo'), desc="launch my file manager")
 ]
 
 groups = [Group(i) for i in "123456789"]
-# "󰮯"
-# groups = []
-# group_names = ["1", "2", "3", "4", "5", "6", "7", "8", "9",]
-# group_labels = ["󰊠", "󰊠", "󰊠", "󰊠", "󰊠", "󰊠", "󰊠", "󰊠", "󰊠",]
-# group_layouts = ["bsp", "bsp", "bsp", "bsp", "bsp", "bsp", "bsp", "bsp", "bsp",]
-#
-# for i in range(len(group_names)):
-#     groups.append(
-#         Group(
-#             name=group_names[i],
-#             layout=group_layouts[i].lower(),
-#             label=group_labels[i],
-#         ))
 
 for i in groups:
     keys.extend(
@@ -153,9 +133,12 @@ for i in groups:
 
 layouts = [
     layout.Bsp(
+        margin_on_single = 10,
         margin = 3,
+        border_width = 3,
         border_on_single = True,
-        border_focus = colors[7]
+        border_focus = colors[4],
+        border_normal = colors[12]
     ),
 ]
 
@@ -168,27 +151,10 @@ extension_defaults = widget_defaults.copy()
 
 screens = [
     Screen(
-        wallpaper = "~/Pictures/Wallpapers/1135002.png",
+        wallpaper = "~/Pictures/Wallpapers/748856.jpg",
         wallpaper_mode = "fill",
         top=bar.Bar(
             [
-                widget.Image(
-                    filename = "~/.config/qtile/svg/archlinux-icon.svg",
-                    margin = 7,
-                    decorations = [
-                        RectDecoration(
-                            colour = colors[12],
-                            radius = 5,
-                            filled = True,
-                            group = True,
-                        )
-                    ],
-                ),
-                widget.Sep(
-                    linewidth = 0,
-                    padding = 6,
-                    size_percent = 40
-                ),
                 widget.Sep(
                     linewidth=0,
                     padding=6,
@@ -203,18 +169,20 @@ screens = [
                     ],
                 ),
                 widget.GroupBox(
-                    margin_y = 3,
-                    margin_x = 4,
-                    padding_y = 2,
-                    padding_x = 3,
-                    borderwidth = 3,
-                    rounded = False,
+                    # margin_y = 3,
+                    # margin_x = 4,
+                    # padding_y = 2,
+                    # padding_x = 3,
+                    # borderwidth = 3,
+                    # rounded = False,
                     highlight_method = "text",
-                    inactive = colors[14],
+                    urgent_alert_method = "text",
+                    urgent_border = colors[14],
+                    inactive = colors[7],
                     active = colors[13],
-                    this_current_screen_border = "#FFFF00",
+                    this_current_screen_border = colors[2],
                     hide_unused = False,
-                    fontsize = 15,
+                    fontsize = 17,
                     decorations=[
                         RectDecoration(
                             colour = colors[12],
@@ -520,10 +488,16 @@ screens = [
                         )
                     ],
                 ),
-                widget.TextBox(
-                    text=' ',
-                    foreground = colors[6],
-                    fontsize = 16,
+                widget.UPowerWidget(
+                    text_charging = None,
+                    text_discharging = None,
+                    text_displaytime = None,
+                    border_critical_colour = colors[14],
+                    border_charge_colour = colors[6],
+                    border_colour = colors[6],
+                    fill_normal = colors[6],
+                    fill_low = colors[2],
+                    fill_critical = colors[14],
                     decorations=[
                         RectDecoration(
                             colour = colors[12],
@@ -537,6 +511,7 @@ screens = [
                     foreground = colors[6],
                     charge_char = "󱐋",
                     discharge_char = "",
+                    unknown_char = "",
                     format = '{char} {percent:2.0%}',
                     full_char = "100%",
                     update_interval = 1,
@@ -565,7 +540,7 @@ screens = [
             ],
             34,
             background = "#00000000",
-            margin = [3, 3, 3, 3],
+            margin = [8, 3, 0, 3],
             border_width=[0, 0, 0, 0],  # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
