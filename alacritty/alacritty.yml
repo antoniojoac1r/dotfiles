@@ -16,11 +16,11 @@ window:
   # by DPI and the specified value is always added at both opposing sides.
   padding:
     x: 20
-    y: 5
+    y: 20
   decorations: none
-  dimensions:
-    columns: 80
-    lines: 35
+  # dimensions:
+  #   columns: 80
+  #   lines: 35
   opacity: 0.9
 
 scrolling:

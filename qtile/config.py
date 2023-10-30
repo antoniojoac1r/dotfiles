@@ -134,7 +134,7 @@ for i in groups:
 layouts = [
     layout.Bsp(
         margin_on_single = 10,
-        margin = 3,
+        margin = 2,
         border_width = 3,
         border_on_single = True,
         border_focus = colors[4],
@@ -151,7 +151,7 @@ extension_defaults = widget_defaults.copy()
 
 screens = [
     Screen(
-        wallpaper = "~/Pictures/Wallpapers/748856.jpg",
+        wallpaper = "~/.config/qtile/wallpapers/748856.jpg",
         wallpaper_mode = "fill",
         top=bar.Bar(
             [
@@ -169,12 +169,6 @@ screens = [
                     ],
                 ),
                 widget.GroupBox(
-                    # margin_y = 3,
-                    # margin_x = 4,
-                    # padding_y = 2,
-                    # padding_x = 3,
-                    # borderwidth = 3,
-                    # rounded = False,
                     highlight_method = "text",
                     urgent_alert_method = "text",
                     urgent_border = colors[14],
